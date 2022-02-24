@@ -4,6 +4,9 @@ leftWristX = 0;
 leftWristY = 0;
 rightWristX = 0;
 rightWristY = 0;
+scoreLeftWrist = 0;
+song_1_status = "";
+song_2_status = "";
 
 preload()
 {
@@ -27,6 +30,9 @@ function gotPoses(results)
 {
     if(results.length > 0)
     {
+        scoreLeftWrist = results[0].pose.keypoints[9].score;
+
+
         console.log(results);
         leftWristX = results[0].pose.leftWrist.x;
         leftWristY = results[0].pose.leftWrist.y;
@@ -36,4 +42,21 @@ function gotPoses(results)
         rightWristY = results[0].pose.rightWrist.y;
         console.log("rightWristX = " + rightWristX +"rightWristY" + rightWristY);
     }
+}
+draw()
+{
+    fill("#FF0000");
+    stroke("#FF0000");
+    song_1_status = music_1.isPlaying();
+    song_2_status = music_2.isPlaying();
+    if(scoreLeftWrist > 0.2)
+    {
+        circle(leftWrist,rightWrist,20);
+        music_2.stop();
+        if(music_1 == false)
+        {
+            music_1.play();
+        }
+    }
+    
 }
